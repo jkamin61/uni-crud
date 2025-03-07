@@ -30,6 +30,7 @@ public class CmdCrudApplication {
                 | 4. Find student by last name  |
                 | 5. Show all students          |
                 | 6. Delete student info        |
+                | 7. Delete all students info   |
                 |_______________________________|
                 |    Press 0 to exit program    |
                 |_______________________________|
@@ -50,6 +51,7 @@ public class CmdCrudApplication {
                     case 4 -> fetchStudentByLastName(studentDAO);
                     case 5 -> fetchStudents(studentDAO);
                     case 6 -> deleteStudent(studentDAO);
+                    case 7 -> deleteAllStudents(studentDAO);
                     default -> {
                         System.out.println("Select appropriate option from menu.");
                         return;
@@ -203,6 +205,22 @@ public class CmdCrudApplication {
             }
             studentDAO.delete(studentToBeDeleted);
             System.out.printf("Student %d deleted successfully", studentId);
+        } catch (Exception e) {
+            System.out.println("Error fetching student");
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteAllStudents(StudentDAO studentDAO) {
+        Scanner scan = new Scanner(System.in);
+        try {
+            System.out.println("Are you sure you want to delete all students? If so type \"yes\"");
+            String confirmation = scan.nextLine();
+            String loweredConfirmation = confirmation.toLowerCase();
+            if (loweredConfirmation.equals("yes")) {
+                studentDAO.deleteAll();
+                System.out.println("All students have been deleted from database");
+            }
         } catch (Exception e) {
             System.out.println("Error fetching student");
             e.printStackTrace();
